@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: order
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${mysql.service.name}:${mysql.service.port}/${mysql.service.database}
+#    username: ${mysql.service.username}
+#    password: ${mysql.service.password}
+
+mysql:
+  service:
+    # The name of the service hosting the MySQL database server,
+    # can be customized using the 'MYSQL_SERVICE_NAME' env variable to use a different service
+    name: mysql
+    # The database to use, can be customized using the 'MYSQL_SERVICE_DATABASE' env variable
+    database: sampledb
+    username: mysql
+    password: root
+    port: 3306
+
+ribbon:
+  ServerListRefreshInterval: 1000
+
+endpoints:
+  health:
+    sensitive: false
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true

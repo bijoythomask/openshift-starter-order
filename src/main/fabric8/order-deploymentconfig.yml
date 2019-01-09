@@ -1,0 +1,96 @@
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    fabric8.io/iconUrl: img/icons/spring-boot.svg
+    fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=order&var-version=0.0.1-SNAPSHOT
+    fabric8.io/scm-tag: HEAD
+    fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/order
+  labels:
+    app: order
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+    group: com.example
+  name: order
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    app: order
+    provider: fabric8
+    group: com.example
+  strategy:
+    rollingParams:
+      timeoutSeconds: 3600
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        fabric8.io/iconUrl: img/icons/spring-boot.svg
+        fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=order&var-version=0.0.1-SNAPSHOT
+        fabric8.io/scm-tag: HEAD
+        fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/order
+      labels:
+        app: order
+        provider: fabric8
+        version: 0.0.1-SNAPSHOT
+        group: com.example
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MYSQL_SERVICE_NAME
+          value: mysql
+        - name: MYSQL_SERVICE_DATABASE
+          value: sampledb
+        - name: MYSQL_SERVICE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: mysql
+        - name: MYSQL_SERVICE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: mysql
+        image: order:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 180
+        name: spring-boot
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9779
+          name: prometheus
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 10
+        securityContext:
+          privileged: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - spring-boot
+      from:
+        kind: ImageStreamTag
+        name: order:latest
+    type: ImageChange
