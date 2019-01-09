@@ -48,15 +48,17 @@ spec:
         - name: MYSQL_SERVICE_DATABASE
           value: sampledb
         - name: MYSQL_SERVICE_USERNAME
-          valueFrom:
-            secretKeyRef:
-              key: database-user
-              name: mysql
+          value: mysql
+#          valueFrom:
+#            secretKeyRef:
+#              key: mysql.username
+#              name: order
         - name: MYSQL_SERVICE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: database-password
-              name: mysql
+          value: root
+#          valueFrom:
+#            secretKeyRef:
+#              key: mysql.password
+#              name: order
         image: order:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
