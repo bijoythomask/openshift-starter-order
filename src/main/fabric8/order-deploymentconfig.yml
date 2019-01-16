@@ -14,7 +14,7 @@ metadata:
     group: com.example
   name: order
 spec:
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 1
   selector:
     app: order
@@ -54,7 +54,7 @@ spec:
 #              key: mysql.username
 #              name: order
         - name: MYSQL_SERVICE_PASSWORD
-          value: root
+          value: password
 #          valueFrom:
 #            secretKeyRef:
 #              key: mysql.password

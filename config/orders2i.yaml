@@ -1,0 +1,37 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  creationTimestamp: '2019-01-16T16:13:43Z'
+  labels:
+    app: order
+    group: com.example
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+  name: order-s2i
+  namespace: cicd
+  resourceVersion: '71988'
+  selfLink: /apis/build.openshift.io/v1/namespaces/cicd/buildconfigs/order-s2i
+  uid: b1d3057d-19a9-11e9-8ea2-080027a6239f
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: {}
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'order:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      from:
+        kind: DockerImage
+        name: 'fabric8/s2i-java:2.3'
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers: []
+status:
+  lastVersion: 1
