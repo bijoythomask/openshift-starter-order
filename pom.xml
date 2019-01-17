@@ -17,6 +17,14 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>artifactory-oss-1-ftl8d-releases</name>
+			<url>http://artifactory-cicd.192.168.99.100.nip.io/libs-release</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- Use MySQL Connector-J -->
 		<dependency>
@@ -71,12 +79,6 @@
       </plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>artifactory-oss-1-ftl8d-releases</name>
-			<url>http://artifactory-cicd.192.168.99.100.nip.io/libs-release</url>
-		</repository>
-	</repositories>
+
 
 </project>
