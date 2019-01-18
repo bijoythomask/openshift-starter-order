@@ -22,9 +22,18 @@ spec:
   postCommit: {}
   resources: {}
   runPolicy: Serial
+#  source:
+#    binary: {}
+#    type: Binary
+
   source:
-    binary: {}
-    type: Binary
+    git:
+      ref: master
+      uri: https://github.com/redhat-helloworld-msa/ola
+      - destinationDir: /tmp
+        secret:
+          name: settings-secret
+    type: Git
   strategy:
     sourceStrategy:
       from:
