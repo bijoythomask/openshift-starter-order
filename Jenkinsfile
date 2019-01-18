@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'mvn clean package -s /etc/secret/jenkins/settings.xml'
+        sh 'mvn -s /etc/secret/jenkins/settings.xml clean package'
       }
     }
     stage('Deploy') {
